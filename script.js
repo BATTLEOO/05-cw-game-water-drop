@@ -10,7 +10,21 @@ let timeLeft = 30;
 let challengeActive = false;
 let celebrationTimeout;
 
-const WIN_SCORE = 30;
+const TARGET_SCORE = 20;
+
+const winningMessages = [
+  "Amazing work! You helped protect clean water.",
+  "You win! Great job catching those clean drops.",
+  "Water hero! You reached the clean water goal.",
+  "Fantastic! You beat the challenge and kept water clean."
+];
+
+const losingMessages = [
+  "Try again! Keep focusing on clean drops.",
+  "Almost there. Try again and avoid dirty drops.",
+  "Good effort! Try again to reach 20 points.",
+  "Keep going! You can hit the clean water goal next round."
+];
 
 const startButton = document.getElementById("start-btn");
 const resetButton = document.getElementById("reset-btn");
@@ -174,10 +188,6 @@ function deactivateChallenge() {
 
 function updateScore() {
   scoreDisplay.textContent = score;
-
-  if (gameRunning && score >= WIN_SCORE) {
-    handleWin();
-  }
 }
 
 function updateTime() {
@@ -205,7 +215,14 @@ function endGame() {
   gameContainer.classList.remove("challenge-active");
   gameContainer.innerHTML = "";
   startButton.textContent = "Start Game";
-  setFeedback(`Time up! Final score: ${score}`, "good");
+
+  if (score >= TARGET_SCORE) {
+    launchCelebration();
+    setFeedback(`${pickRandomMessage(winningMessages)} Final score: ${score}`, "good");
+  } else {
+    clearCelebration();
+    setFeedback(`${pickRandomMessage(losingMessages)} Final score: ${score}`, "bad");
+  }
 }
 
 function resetGame() {
@@ -230,26 +247,6 @@ function resetGame() {
   startButton.textContent = "Start Game";
   clearCelebration();
   setFeedback("Game reset. Press Start Game to play.", "good");
-}
-
-function handleWin() {
-  if (!gameRunning) return;
-
-  gameRunning = false;
-  clearInterval(dropMaker);
-  clearInterval(timerTick);
-  clearInterval(obstacleMaker);
-  clearTimeout(challengeTimer);
-  clearTimeout(challengeEndTimer);
-
-  challengeActive = false;
-  updateChallengeStatus("Calm", false);
-  gameContainer.classList.remove("challenge-active");
-  gameContainer.innerHTML = "";
-  startButton.textContent = "Start Game";
-
-  launchCelebration();
-  setFeedback(`You win! ${WIN_SCORE} points reached.`, "good");
 }
 
 function launchCelebration() {
@@ -280,6 +277,10 @@ function launchCelebration() {
 function clearCelebration() {
   celebrationOverlay.classList.remove("show");
   celebrationOverlay.innerHTML = "";
+}
+
+function pickRandomMessage(messages) {
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
 function updateChallengeStatus(label, isDanger) {
