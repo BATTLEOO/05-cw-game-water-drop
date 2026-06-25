@@ -8,6 +8,9 @@
 </head>
 <body>
     <div class="game-wrapper">
+        <header class="brand-header" aria-label="charity water branding">
+            <img class="brand-logo" src="img/cw_logo-horizontal.png" alt="charity: water logo">
+        </header>
         <h1 class="game-title">Water Drop</h1>
         <p class="game-tagline">Catch the good drops, avoid the bad ones!</p>
         <div class="score-panel">
@@ -15,7 +18,10 @@
             <div class="timer">Time: <span id="time">30</span>s</div>
             <button id="start-btn">Start Game</button>
         </div>
-        <p id="feedback-message" class="feedback-message">Tap clean drops to score. Avoid dirty drops.</p>
+        <p id="feedback-message" class="feedback-message">
+            <img class="feedback-icon" src="img/water-can-transparent.png" alt="Water can icon">
+            <span>Tap clean drops to score. Avoid dirty drops.</span>
+        </p>
         
         <div id="game-container">
         </div>

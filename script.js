@@ -10,6 +10,7 @@ const gameContainer = document.getElementById("game-container");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 const feedbackDisplay = document.getElementById("feedback-message");
+const feedbackText = feedbackDisplay.querySelector("span");
 
 // Wait for button click to start the game
 startButton.addEventListener("click", startGame);
@@ -119,7 +120,7 @@ function endGame() {
 }
 
 function setFeedback(message, type) {
-  feedbackDisplay.textContent = message;
+  feedbackText.textContent = message;
   feedbackDisplay.classList.remove("good", "bad");
 
   if (type) {
