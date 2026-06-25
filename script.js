@@ -116,7 +116,6 @@ function createObstacle() {
 
   const obstacle = document.createElement("div");
   obstacle.className = "trash-obstacle";
-  obstacle.textContent = "TR";
 
   const gameWidth = gameContainer.offsetWidth;
   const obstacleSize = 56;

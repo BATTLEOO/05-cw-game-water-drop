@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Jersey+25&family=Libre+Baskerville:wght@700&family=Oswald:wght@400;500;600;700&display=swap");
+
 /* Charity: water Brand Colors & Fonts
 
 Primary Colors:
@@ -41,7 +43,7 @@ body {
     min-height: 100vh;
     padding: 12px;
     background: linear-gradient(160deg, #e7f4ff 0%, #f5fbff 50%, #fffbea 100%);
-    font-family: Arial, sans-serif;
+    font-family: "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 .game-wrapper {
@@ -76,6 +78,7 @@ body {
     border-radius: 8px;
     border-top: 6px solid var(--cw-yellow);
     box-shadow: 0 8px 20px rgba(14, 62, 97, 0.12);
+    font-family: "Jersey 25", "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 .feedback-message {
@@ -88,6 +91,7 @@ body {
     gap: 10px;
     font-size: 20px;
     font-weight: 700;
+    letter-spacing: 0.2px;
     color: var(--cw-blue);
     transition: color 0.2s ease;
 }
@@ -110,12 +114,14 @@ body {
     flex: 0 1 auto;
     font-size: 24px;
     font-weight: bold;
+    letter-spacing: 0.3px;
 }
 
 .challenge {
     flex: 0 1 auto;
     font-size: 24px;
     font-weight: 700;
+    letter-spacing: 0.3px;
     color: var(--cw-ink);
 }
 
@@ -146,6 +152,7 @@ body {
 
 #start-btn,
 #reset-btn {
+    font-family: "Jersey 25", "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
     padding: 8px 16px;
     min-height: 44px;
     color: var(--cw-ink);
@@ -154,6 +161,8 @@ body {
     cursor: pointer;
     font-size: 16px;
     font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
 }
 
 #start-btn {
@@ -175,16 +184,29 @@ body {
 
 .score {
     flex: 0 1 auto;  /* Don't grow, can shrink, auto basis */
+    font-family: "Jersey 25", "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: 24px;
     font-weight: bold;
+    letter-spacing: 0.3px;
+}
+
+.timer,
+.challenge,
+#challenge-status {
+    font-family: "Jersey 25", "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 .water-drop {
     position: absolute;
     width: 60px;  /* increased from 40px */
     height: 60px; /* increased from 40px */
-    background-color: var(--cw-blue);
+    background-color: rgba(46, 157, 247, 0.16);
+    background-image: url("img/water-can-transparent.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 78% 78%;
     border-radius: 50%;
+    border: 2px solid rgba(46, 157, 247, 0.32);
     animation: dropFall linear forwards;
     transform-origin: center;
     cursor: pointer;
@@ -198,7 +220,9 @@ body {
 }
 
 .bad-drop {
-    background-color: var(--cw-red);
+    background-color: rgba(245, 64, 44, 0.16);
+    background-image: url("img/garbage-icon.svg");
+    border-color: rgba(245, 64, 44, 0.45);
 }
 
 .trash-obstacle {
@@ -206,32 +230,45 @@ body {
     width: 56px;
     height: 56px;
     border-radius: 12px;
-    border: 3px solid #4e4e4e;
-    background: linear-gradient(160deg, #9b9b9b 0%, #676767 100%);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0.5px;
+    border: 2px solid #666666;
+    background-color: rgba(106, 106, 106, 0.15);
+    background-image: url("img/garbage-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 82% 82%;
     cursor: pointer;
     animation: obstacleFall linear forwards;
 }
 
 .game-title {
     color: var(--cw-ink);
+    font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
     font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 1px;
     margin-top: 0;
     margin-bottom: 5px;  /* reduced from 20px */
     text-align: center;
 }
 
 .game-tagline {
-    color: #666;
+    color: #4b5966;
+    font-family: "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.35px;
     margin-bottom: 20px;
     text-align: center;
+}
+
+.tagline-good {
+    color: var(--cw-blue);
+    font-weight: 700;
+}
+
+.tagline-bad {
+    color: var(--cw-red);
+    font-weight: 700;
 }
 
 .celebration-overlay {
@@ -254,6 +291,7 @@ body {
     transform: translate(-50%, -50%);
     background-color: var(--cw-yellow);
     color: var(--cw-ink);
+    font-family: "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: clamp(26px, 4vw, 44px);
     font-weight: 800;
     padding: 14px 20px;
