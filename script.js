@@ -10,6 +10,7 @@ let timeLeft = 30;
 let challengeActive = false;
 
 const startButton = document.getElementById("start-btn");
+const resetButton = document.getElementById("reset-btn");
 const gameContainer = document.getElementById("game-container");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
@@ -19,6 +20,7 @@ const feedbackText = feedbackDisplay.querySelector("span");
 
 // Wait for button click to start the game
 startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", resetGame);
 
 function startGame() {
   // Prevent multiple games from running at once
@@ -195,6 +197,28 @@ function endGame() {
   gameContainer.innerHTML = "";
   startButton.textContent = "Start Game";
   setFeedback(`Time up! Final score: ${score}`, "good");
+}
+
+function resetGame() {
+  gameRunning = false;
+  clearInterval(dropMaker);
+  clearInterval(timerTick);
+  clearInterval(obstacleMaker);
+  clearTimeout(challengeTimer);
+  clearTimeout(challengeEndTimer);
+
+  challengeActive = false;
+  score = 0;
+  timeLeft = 30;
+
+  updateScore();
+  updateTime();
+  updateChallengeStatus("Calm", false);
+
+  gameContainer.classList.remove("challenge-active");
+  gameContainer.innerHTML = "";
+  startButton.textContent = "Start Game";
+  setFeedback("Game reset. Press Start Game to play.", "good");
 }
 
 function updateChallengeStatus(label, isDanger) {

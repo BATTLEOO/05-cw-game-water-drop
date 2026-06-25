@@ -143,10 +143,10 @@ body {
 }
 
 
-#start-btn {
+#start-btn,
+#reset-btn {
     padding: 8px 16px;
     min-height: 44px;
-    background-color: var(--cw-yellow);
     color: var(--cw-ink);
     border: none;
     border-radius: 4px;
@@ -155,8 +155,21 @@ body {
     font-weight: 700;
 }
 
+#start-btn {
+    background-color: var(--cw-yellow);
+}
+
+#reset-btn {
+    background-color: #efefef;
+    border: 1px solid #cfcfcf;
+}
+
 #start-btn:hover {
     background-color: #ffd94d;
+}
+
+#reset-btn:hover {
+    background-color: #dddddd;
 }
 
 .score {
@@ -270,7 +283,8 @@ body {
         font-size: 20px;
     }
 
-    #start-btn {
+    #start-btn,
+    #reset-btn {
         width: 100%;
         font-size: 17px;
     }
