@@ -2,13 +2,18 @@
 let gameRunning = false; // Keeps track of whether game is active or not
 let dropMaker; // Will store our timer that creates drops regularly
 let timerTick; // Stores countdown interval
+let challengeTimer;
+let challengeEndTimer;
+let obstacleMaker;
 let score = 0;
 let timeLeft = 30;
+let challengeActive = false;
 
 const startButton = document.getElementById("start-btn");
 const gameContainer = document.getElementById("game-container");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
+const challengeStatusDisplay = document.getElementById("challenge-status");
 const feedbackDisplay = document.getElementById("feedback-message");
 const feedbackText = feedbackDisplay.querySelector("span");
 
@@ -24,6 +29,7 @@ function startGame() {
   timeLeft = 30;
   updateScore();
   updateTime();
+  updateChallengeStatus("Calm", false);
   gameContainer.innerHTML = "";
   startButton.textContent = "Playing...";
   setFeedback("Collect clean drops (+2). Avoid dirty drops (-3).", "good");
@@ -31,6 +37,7 @@ function startGame() {
   // Create new drops every second (1000 milliseconds)
   dropMaker = setInterval(createDrop, 700);
   timerTick = setInterval(updateGameTimer, 1000);
+  scheduleChallenge();
 }
 
 function createDrop() {
@@ -40,7 +47,8 @@ function createDrop() {
   const drop = document.createElement("div");
   drop.className = "water-drop";
 
-  const isBadDrop = Math.random() < 0.2;
+  const badDropChance = challengeActive ? 0.45 : 0.2;
+  const isBadDrop = Math.random() < badDropChance;
   if (isBadDrop) {
     drop.classList.add("bad-drop");
   }
@@ -67,8 +75,9 @@ function createDrop() {
 
     dropHandled = true;
     if (isBadDrop) {
-      score -= 3;
-      setFeedback("Dirty drop! -3 points", "bad");
+      const dirtyPenalty = challengeActive ? 5 : 3;
+      score -= dirtyPenalty;
+      setFeedback(`Dirty drop! -${dirtyPenalty} points`, "bad");
     } else {
       score += 2;
       setFeedback("Great catch! +2 points", "good");
@@ -83,14 +92,77 @@ function createDrop() {
   // Remove drops that reach the bottom (weren't clicked)
   drop.addEventListener("animationend", () => {
     if (!dropHandled && gameRunning && !isBadDrop) {
-      score -= 1;
+      const missPenalty = challengeActive ? 2 : 1;
+      score -= missPenalty;
       updateScore();
-      setFeedback("Missed clean drop! -1 point", "bad");
+      setFeedback(`Missed clean drop! -${missPenalty} point${missPenalty > 1 ? "s" : ""}`, "bad");
     }
 
     dropHandled = true;
     drop.remove(); // Clean up drops that weren't caught
   });
+}
+
+function createObstacle() {
+  if (!gameRunning || !challengeActive) return;
+
+  const obstacle = document.createElement("div");
+  obstacle.className = "trash-obstacle";
+  obstacle.textContent = "TR";
+
+  const gameWidth = gameContainer.offsetWidth;
+  const obstacleSize = 56;
+  const xPosition = Math.random() * (gameWidth - obstacleSize);
+  obstacle.style.left = xPosition + "px";
+  obstacle.style.animationDuration = `${Math.random() * 1.4 + 2.2}s`;
+  obstacle.style.setProperty("--obstacle-fall-distance", `${gameContainer.clientHeight + 40}px`);
+
+  obstacle.addEventListener("click", () => {
+    if (!gameRunning || !challengeActive) return;
+
+    score -= 4;
+    updateScore();
+    setFeedback("Hit trash obstacle! -4 points", "bad");
+    obstacle.remove();
+  });
+
+  obstacle.addEventListener("animationend", () => {
+    obstacle.remove();
+  });
+
+  gameContainer.appendChild(obstacle);
+}
+
+function scheduleChallenge() {
+  if (!gameRunning) return;
+
+  const nextChallengeDelay = Math.random() * 3000 + 5000;
+  challengeTimer = setTimeout(activateChallenge, nextChallengeDelay);
+}
+
+function activateChallenge() {
+  if (!gameRunning) return;
+
+  challengeActive = true;
+  updateChallengeStatus("Pollution Surge", true);
+  gameContainer.classList.add("challenge-active");
+  setFeedback("Pollution surge! More bad drops and trash obstacles.", "bad");
+
+  obstacleMaker = setInterval(createObstacle, 900);
+  challengeEndTimer = setTimeout(deactivateChallenge, 4500);
+}
+
+function deactivateChallenge() {
+  challengeActive = false;
+  updateChallengeStatus("Calm", false);
+  gameContainer.classList.remove("challenge-active");
+  clearInterval(obstacleMaker);
+  gameContainer.querySelectorAll(".trash-obstacle").forEach((obstacle) => obstacle.remove());
+
+  if (gameRunning) {
+    setFeedback("Waters are calmer. Keep collecting!", "good");
+    scheduleChallenge();
+  }
 }
 
 function updateScore() {
@@ -114,9 +186,20 @@ function endGame() {
   gameRunning = false;
   clearInterval(dropMaker);
   clearInterval(timerTick);
+  clearInterval(obstacleMaker);
+  clearTimeout(challengeTimer);
+  clearTimeout(challengeEndTimer);
+  challengeActive = false;
+  updateChallengeStatus("Calm", false);
+  gameContainer.classList.remove("challenge-active");
   gameContainer.innerHTML = "";
   startButton.textContent = "Start Game";
   setFeedback(`Time up! Final score: ${score}`, "good");
+}
+
+function updateChallengeStatus(label, isDanger) {
+  challengeStatusDisplay.textContent = label;
+  challengeStatusDisplay.classList.toggle("danger", isDanger);
 }
 
 function setFeedback(message, type) {
