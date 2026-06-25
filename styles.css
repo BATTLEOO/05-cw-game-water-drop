@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Jersey+25&family=Libre+Baskerville:wght@700&family=Oswald:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jersey+25&family=Libre+Baskerville:wght@700&family=Oswald:wght@400;500;600;700&family=Playwrite+NZ:wght@100..400&display=swap");
 
 /* Charity: water Brand Colors & Fonts
 
@@ -89,8 +89,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    font-family: "Playwrite NZ", "Oswald", "Avenir Next", Avenir, "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.2px;
     color: var(--cw-blue);
     transition: color 0.2s ease;
@@ -200,13 +201,13 @@ body {
     position: absolute;
     width: 60px;  /* increased from 40px */
     height: 60px; /* increased from 40px */
-    background-color: rgba(46, 157, 247, 0.16);
-    background-image: url("img/water-can-transparent.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 78% 78%;
-    border-radius: 50%;
-    border: 2px solid rgba(46, 157, 247, 0.32);
+    background-image: url("img/water-can-transparent.png"), radial-gradient(circle at 30% 28%, #dff4ff 0%, #9bd9ff 30%, #2e9df7 72%, #1d71be 100%);
+    background-repeat: no-repeat, no-repeat;
+    background-position: center 56%, center;
+    background-size: 42% 42%, 100% 100%;
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 62% 12%, 74% 26%, 86% 44%, 87% 62%, 80% 79%, 66% 92%, 50% 97%, 34% 92%, 20% 79%, 13% 62%, 14% 44%, 26% 26%, 38% 12%);
+    border: 2px solid rgba(46, 157, 247, 0.45);
     animation: dropFall linear forwards;
     transform-origin: center;
     cursor: pointer;
@@ -222,6 +223,11 @@ body {
 .bad-drop {
     background-color: rgba(245, 64, 44, 0.16);
     background-image: url("img/garbage-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 72% 72%;
+    clip-path: none;
+    border-radius: 50%;
     border-color: rgba(245, 64, 44, 0.45);
 }
 
