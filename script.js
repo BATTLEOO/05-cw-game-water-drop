@@ -58,6 +58,7 @@ function createDrop() {
 
   // Make drops fall for 4 seconds
   drop.style.animationDuration = `${Math.random() * 1.5 + 2.5}s`;
+  drop.style.setProperty("--drop-fall-distance", `${gameContainer.clientHeight + 30}px`);
   let dropHandled = false;
 
   drop.addEventListener("click", () => {

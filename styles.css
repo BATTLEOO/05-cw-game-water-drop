@@ -29,6 +29,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 12px;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
@@ -38,6 +39,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: min(800px, 100%);
 }
 
 .score-panel {
@@ -45,6 +47,8 @@ body {
     justify-content: space-between;  /* Space between score and button */
     align-items: center;
     width: 800px;
+    gap: 16px;
+    flex-wrap: wrap;
     padding: 10px;
     background-color: #fff;
     border-radius: 8px;
@@ -79,6 +83,8 @@ body {
 #game-container {
     width: 800px;
     height: 600px;
+    max-width: 100%;
+    min-height: 360px;
     background-color: #e6f7ff;
     border: 2px solid #333;
     border-radius: 8px;
@@ -89,6 +95,7 @@ body {
 
 #start-btn {
     padding: 8px 16px;
+    min-height: 44px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -149,7 +156,7 @@ body {
         transform: translateY(-20px);
     }
     to {
-        transform: translateY(600px);
+        transform: translateY(var(--drop-fall-distance, 600px));
     }
 }
 
@@ -165,6 +172,41 @@ body {
     }
     
     #game-container {
-        height: 70vh;
+        height: 68vh;
+    }
+}
+
+@media (max-width: 560px) {
+    .game-title {
+        font-size: 36px;
+    }
+
+    .game-tagline {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .score,
+    .timer {
+        font-size: 20px;
+    }
+
+    #start-btn {
+        width: 100%;
+        font-size: 17px;
+    }
+
+    .feedback-message {
+        font-size: 17px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 8px;
+    }
+
+    #game-container {
+        height: 62vh;
+        min-height: 320px;
     }
 }
