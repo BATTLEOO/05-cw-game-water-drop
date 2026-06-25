@@ -73,8 +73,8 @@ function createDrop() {
   const xPosition = Math.random() * (gameWidth - size);
   drop.style.left = xPosition + "px";
 
-  // Make drops fall for 4 seconds
-  drop.style.animationDuration = `${Math.random() * 1.5 + 2.5}s`;
+  // Make drops fall slower for easier tracking and tapping
+  drop.style.animationDuration = `${Math.random() * 2 + 4.5}s`;
   drop.style.setProperty("--drop-fall-distance", `${gameContainer.clientHeight + 30}px`);
   let dropHandled = false;
 
