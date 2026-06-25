@@ -51,6 +51,25 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.feedback-message {
+    width: 800px;
+    min-height: 28px;
+    margin-top: -10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d6db9;
+    transition: color 0.2s ease;
+}
+
+.feedback-message.good {
+    color: #159a48;
+}
+
+.feedback-message.bad {
+    color: #f5402c;
+}
+
 .timer {
     flex: 0 1 auto;
     font-size: 24px;
@@ -135,8 +154,14 @@ body {
 }
 
 @media (max-width: 850px) {
-    .game-wrapper, .score-panel, #game-container {
+    .game-wrapper, .score-panel, #game-container, .feedback-message {
         width: 95vw;
+    }
+
+    .score-panel {
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     #game-container {
