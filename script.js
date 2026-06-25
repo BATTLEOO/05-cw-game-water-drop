@@ -8,6 +8,9 @@ let obstacleMaker;
 let score = 0;
 let timeLeft = 30;
 let challengeActive = false;
+let celebrationTimeout;
+
+const WIN_SCORE = 30;
 
 const startButton = document.getElementById("start-btn");
 const resetButton = document.getElementById("reset-btn");
@@ -17,6 +20,7 @@ const timeDisplay = document.getElementById("time");
 const challengeStatusDisplay = document.getElementById("challenge-status");
 const feedbackDisplay = document.getElementById("feedback-message");
 const feedbackText = feedbackDisplay.querySelector("span");
+const celebrationOverlay = document.getElementById("celebration-overlay");
 
 // Wait for button click to start the game
 startButton.addEventListener("click", startGame);
@@ -32,6 +36,8 @@ function startGame() {
   updateScore();
   updateTime();
   updateChallengeStatus("Calm", false);
+  clearTimeout(celebrationTimeout);
+  clearCelebration();
   gameContainer.innerHTML = "";
   startButton.textContent = "Playing...";
   setFeedback("Collect clean drops (+2). Avoid dirty drops (-3).", "good");
@@ -169,6 +175,10 @@ function deactivateChallenge() {
 
 function updateScore() {
   scoreDisplay.textContent = score;
+
+  if (gameRunning && score >= WIN_SCORE) {
+    handleWin();
+  }
 }
 
 function updateTime() {
@@ -206,6 +216,7 @@ function resetGame() {
   clearInterval(obstacleMaker);
   clearTimeout(challengeTimer);
   clearTimeout(challengeEndTimer);
+  clearTimeout(celebrationTimeout);
 
   challengeActive = false;
   score = 0;
@@ -218,7 +229,58 @@ function resetGame() {
   gameContainer.classList.remove("challenge-active");
   gameContainer.innerHTML = "";
   startButton.textContent = "Start Game";
+  clearCelebration();
   setFeedback("Game reset. Press Start Game to play.", "good");
+}
+
+function handleWin() {
+  if (!gameRunning) return;
+
+  gameRunning = false;
+  clearInterval(dropMaker);
+  clearInterval(timerTick);
+  clearInterval(obstacleMaker);
+  clearTimeout(challengeTimer);
+  clearTimeout(challengeEndTimer);
+
+  challengeActive = false;
+  updateChallengeStatus("Calm", false);
+  gameContainer.classList.remove("challenge-active");
+  gameContainer.innerHTML = "";
+  startButton.textContent = "Start Game";
+
+  launchCelebration();
+  setFeedback(`You win! ${WIN_SCORE} points reached.`, "good");
+}
+
+function launchCelebration() {
+  const confettiColors = ["#ffc907", "#2e9df7", "#4fcb53", "#f5402c", "#ff902a"];
+
+  clearCelebration();
+  celebrationOverlay.classList.add("show");
+
+  const text = document.createElement("div");
+  text.className = "celebration-text";
+  text.textContent = "Clean Water Champion!";
+  celebrationOverlay.appendChild(text);
+
+  for (let i = 0; i < 80; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    piece.style.animationDuration = `${Math.random() * 1.6 + 1.7}s`;
+    piece.style.animationDelay = `${Math.random() * 0.8}s`;
+    celebrationOverlay.appendChild(piece);
+  }
+
+  clearTimeout(celebrationTimeout);
+  celebrationTimeout = setTimeout(clearCelebration, 2600);
+}
+
+function clearCelebration() {
+  celebrationOverlay.classList.remove("show");
+  celebrationOverlay.innerHTML = "";
 }
 
 function updateChallengeStatus(label, isDanger) {
